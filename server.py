@@ -13,7 +13,10 @@ def get_trends():
 
     trends_data = pytrends.interest_over_time()
 
-    return jsonify(trends_data.to_dict())
+    if trends_data.empty:
+        return jsonify({"error": "No data found for this keyword"}), 404
+    
+    return jsonify(trends_data.to_dict()), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
